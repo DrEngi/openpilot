@@ -1,9 +1,10 @@
 from cereal import car
 from panda import Panda
+from openpilot.common.params import Params
 from openpilot.common.conversions import Conversions as CV
 from openpilot.selfdrive.car import get_safety_config, create_mads_event
 from openpilot.selfdrive.car.ford.fordcan import CanBus
-from openpilot.selfdrive.car.ford.values import CANFD_CAR, CAR, Ecu, BUTTON_STATES
+from openpilot.selfdrive.car.ford.values import CANFD_CAR, CAR, Ecu, BUTTON_STATES, FORDEV_CAR
 from openpilot.selfdrive.car.interfaces import CarInterfaceBase
 
 ButtonType = car.CarState.ButtonEvent.Type
@@ -20,6 +21,9 @@ class CarInterface(CarInterfaceBase):
   @staticmethod
   def _get_params(ret, candidate, fingerprint, car_fw, experimental_long, docs):
     ret.carName = "ford"
+#    dongle_id = Params().get("DongleId", encoding='utf-8')
+#    if dongle_id != '83a4e056c7072678':
+#      ret.dashcamOnly = candidate in {CAR.F_150_MK14, CAR.F_150_LIGHTNING_MK1, CAR.MUSTANG_MACH_E_MK1}
     ret.dashcamOnly = candidate in {CAR.F_150_MK14}
 
     ret.radarUnavailable = True
@@ -61,6 +65,17 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.69
       ret.steerRatio = 17.0
       ret.mass = 2000
+
+    elif candidate == CAR.F_150_LIGHTNING_MK1:
+      # required trim only on SuperCrew
+      ret.wheelbase = 3.70
+      ret.steerRatio = 16.9
+      ret.mass = 2948
+
+    elif candidate == CAR.MUSTANG_MACH_E_MK1:
+      ret.wheelbase = 2.984
+      ret.steerRatio = 17.0  # guess
+      ret.mass = 2200
 
     elif candidate == CAR.FOCUS_MK4:
       ret.wheelbase = 2.7
