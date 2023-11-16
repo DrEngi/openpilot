@@ -21,10 +21,10 @@ class CarInterface(CarInterfaceBase):
   @staticmethod
   def _get_params(ret, candidate, fingerprint, car_fw, experimental_long, docs):
     ret.carName = "ford"
-    dongle_id = Params().get("DongleId", encoding='utf-8')
-    if dongle_id != '83a4e056c7072678':
-      ret.dashcamOnly = candidate in {CAR.F_150_MK14, CAR.F_150_LIGHTNING_MK1, CAR.MUSTANG_MACH_E_MK1}
-#    ret.dashcamOnly = candidate in {CAR.F_150_MK14}
+#    dongle_id = Params().get("DongleId", encoding='utf-8')
+#    if dongle_id != '83a4e056c7072678':
+#      ret.dashcamOnly = candidate in {CAR.F_150_MK14, CAR.F_150_LIGHTNING_MK1, CAR.MUSTANG_MACH_E_MK1}
+    ret.dashcamOnly = candidate in {CAR.F_150_MK14}
 
     ret.radarUnavailable = True
     ret.steerControlType = car.CarParams.SteerControlType.angle
